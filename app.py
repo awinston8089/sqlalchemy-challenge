@@ -105,15 +105,15 @@ def startdate(start):
 def startenddate(start, end):
     send_station = session.query(Measurement.date,func.min(Measurement.tobs),func.max(Measurement.tobs), func.avg(Measurement.tobs)).\
     filter(Measurement.date>=start,Measurement.date<=end).group_by(Measurement.date).all()
-    sendate = {}
-    for sendate in send_station:
+    sendlist = []
+    for stendate in send_station:
+        sendate={}
         sendate['Start Date'] = start
-        sendate['Average Temperature'] = float(sendate[3])
-        sendate['Highest Temperature'] = float(sendate[2])
-        sendate['Lowest Temperature'] = float(sendate[1])
-    return jsonify(sendate)  
+        sendate['End Date'] = end
+        sendate['Average Temperature'] = float(stendate[3])
+        sendate['Highest Temperature'] = float(stendate[2])
+        sendate['Lowest Temperature'] = float(stendate[1])
+        sendlist.append(sendate)
+    return jsonify(sendlist)  
 app.run(debug=True)
-        # sdate.append(datedict)
-    # for sendates in send_station:
-    #     sendate[sendates[0]]={sendates[1],sendates[2],sendates[3]}
-    
+     
